@@ -1,0 +1,5 @@
+{
+  "name": "Arckitek",
+  "description": "A multimodal architectural analysis and design suite powered by Gemini 2.5 and 3.0 Pro.",
+  "requestFramePermissions": []
+}
