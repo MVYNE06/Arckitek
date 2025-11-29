@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import ThreeDViewer, { ThreeDViewerHandle } from './components/ThreeDViewer';
 import ChatInterface from './components/ChatInterface';
 import ImageEditor from './components/ImageEditor';
-import { IconCamera, IconCube, IconLink, IconUpload, IconEdit } from './components/Icons';
+import { IconCube, IconLink, IconUpload, IconEdit } from './components/Icons';
 
 export default function App() {
   const viewerRef = useRef<ThreeDViewerHandle>(null);
@@ -12,17 +12,6 @@ export default function App() {
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [splineUrl, setSplineUrl] = useState<string>('');
   const [tempUrl, setTempUrl] = useState('');
-
-  const handleCapture = async () => {
-    if (viewerRef.current) {
-      // Capture can be async now due to getDisplayMedia for iframes
-      const img = await viewerRef.current.captureScreenshot();
-      if (img) {
-          setCapturedImage(img);
-          // Don't auto open editor, let user choose to edit or chat
-      }
-    }
-  };
 
   const handleEditorSave = (newImg: string) => {
       setCapturedImage(newImg);
@@ -57,7 +46,7 @@ export default function App() {
       if (capturedImage) {
           setIsEditing(true);
       } else {
-          alert("Please capture or upload an image first to edit.");
+          alert("Please upload an image first to edit.");
       }
   };
 
@@ -117,21 +106,6 @@ export default function App() {
         <div className="flex-1 relative bg-slate-950">
             <ThreeDViewer ref={viewerRef} url={splineUrl} />
             
-            {/* Overlay Controls */}
-            {splineUrl && (
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
-                    <button 
-                        onClick={handleCapture}
-                        className="flex items-center gap-2 px-6 py-3 rounded-full bg-white text-slate-900 font-bold shadow-2xl hover:bg-slate-100 transition hover:scale-105"
-                    >
-                        <IconCamera className="w-5 h-5 text-[#4285F4]" />
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#4285F4] to-[#EA4335]">
-                            Capture Screen
-                        </span>
-                    </button>
-                </div>
-            )}
-
             {/* URL Input Modal */}
             {showLinkInput && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
